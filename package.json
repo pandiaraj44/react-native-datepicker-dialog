@@ -2,7 +2,7 @@
   "name": "react-native-datepicker",
   "version": "0.0.1",
   "description": "This react-native library provides the cross-platform components for to open the date, time picker dialogs in an effective way. It uses the native DatePickerAndroid & DatePickerIOS components.",
-  "main": "index.js",
+  "main": "main-index.js",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
@@ -14,12 +14,12 @@
   "keywords": [
     "react-native",
     "DatePicker",
-	"TimePicker",
-	"date picker",
-	"time picker",
-	"dialog",
-	"datepicker dialog",
-	"timepicker dialog"
+  	"TimePicker",
+  	"date picker",
+  	"time picker",
+  	"dialog",
+  	"datepicker dialog",
+  	"timepicker dialog"
  	],
   "author": "Pandiarajan Nagarajan",
   "license": "MIT",
@@ -28,7 +28,9 @@
   },
   "homepage": "https://github.com/pandiaraj44/react-native-datepicker-timepicker-dialog",
   "dependencies": {
-    "moment": "2.x.x"
+    "moment": "2.x.x",
+    "react": "15.3.2",
+    "react-native": "0.37.0"
   },
   "jest": {
     "preset": "jest-react-native"
