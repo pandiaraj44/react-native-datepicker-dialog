@@ -118,7 +118,7 @@ export default class DatePickerTimePickerDialog extends Component {
 
         </View>
 
-        {/* Place the dialog component at end of your views*/}
+        {/* Place the dialog component at end of your views and assign the references, event handlers to it.*/}
         <DatePickerDialog ref="dobDialog" onDatePicked={this.onDOBDatePicked.bind(this)} />
         <DatePickerDialog ref="journeyDialog" onDatePicked={this.onJourneyDatePicked.bind(this)} />
 
