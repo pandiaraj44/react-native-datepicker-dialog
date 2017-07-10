@@ -1,6 +1,6 @@
 {
   "name": "react-native-datepicker-dialog",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "This library provides the cross-platform components for to open the date picker dialogs in effective way. It uses the native DatePickerAndroid & DatePickerIOS components. It will work for both ios & android.",
   "main": "main-index.js",
   "scripts": {
