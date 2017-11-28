@@ -222,8 +222,15 @@ AppRegistry.registerComponent('DatePickerTimePickerDialog', () => DatePickerTime
 **1. onDatePicked: PropTypes.func** - Date picked handler.
 `This method will be called when the user selected the date from picker.The first and only argument is a Date object representing the picked date and time.`
 
-**2. onCancel: PropTypes.func** - Date Cancelled handler.
+**2. onCancel: PropTypes.func** - Date cancelled handler.
 `This method will be called when the user dismissed the picker.`
+
+**3. okLabel: PropTypes.string** - `**Ios Only**` (Ok button label) .
+`Default value is 'Ok'`
+
+**4. cancelLabel: PropTypes.string** - `**Ios Only**` (Cancel button label) .
+`Default value is 'Cancel'`
+
 
 # References
 
