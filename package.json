@@ -43,7 +43,7 @@
     "jest": "17.0.3",
     "jest-react-native": "17.0.3",
     "react-test-renderer": "15.3.2",
-    "moment": "2.11.2",
+    "moment": "2.27.0",
     "prop-types": "^15.6.0"
   }
 }
