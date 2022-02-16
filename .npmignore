@@ -1,5 +1,11 @@
-index.android.js
-index.ios.js
+index.js
 android/
 ios/
 __tests__/
+tsconfig.json
+tsconfig.lib.json
+lib
+!/dist/lib
+App.tsx
+main-index.ts
+.idea
