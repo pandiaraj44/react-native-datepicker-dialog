@@ -14,13 +14,11 @@ interface Props {
 interface State {
     datePickerVisible: boolean;
     date?: Date;
-    options?: DatePickerOptions;
+    options?: TimePickerOptions;
 }
 
-export interface DatePickerOptions {
+export interface TimePickerOptions {
     date?: Date;
-    minDate?: Date;
-    maxDate?: Date;
 }
 
 export default class DatePickerDialog extends Component<Props, State> {
@@ -38,12 +36,12 @@ export default class DatePickerDialog extends Component<Props, State> {
         cancelLabel: 'Cancel'
     }
 
-    open( options: DatePickerOptions ) {
+    open( options: TimePickerOptions ) {
+        console.log(options)
         this.setState({
             options: options,
             date: options.date ?? new Date(),
-        });
-        this.showDatePickerModal();
+        },this.showDatePickerModal);
     }
 
     cancel = () => {
@@ -90,7 +88,6 @@ export default class DatePickerDialog extends Component<Props, State> {
     render() {
         const { locale, okLabel, cancelLabel } = this.props;
         const { datePickerVisible, options = {}, date: sDate } = this.state;
-        const { minDate, maxDate } = options
         const mode = Platform.OS === "ios" ? "spinner" : "calendar";
         const xProps = Platform.OS === "ios" ? { locale: locale ? locale : 'en_EN' } : {};
         return (
@@ -104,9 +101,7 @@ export default class DatePickerDialog extends Component<Props, State> {
             >
                 <RNDateTimePicker
                     value={ sDate!  }
-                    maximumDate={ maxDate }
-                    minimumDate={ minDate }
-                    mode="date"
+                    mode="time"
                     display={ mode }
                     onChange={ this.onChange }
                 />

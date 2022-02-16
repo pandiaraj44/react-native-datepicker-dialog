@@ -7,7 +7,7 @@
 import React, { Component } from 'react';
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
 
-import { DatePickerDialog } from './main-index'
+import { DatePickerDialog, TimePickerDialog } from './main-index'
 import moment from 'moment';
 
 interface Props {
@@ -16,19 +16,19 @@ interface Props {
 interface State {
     dobText: string;
     dobDate?: Date;
-    journeyText: string;
-    journeyDate?: Date;
+    snackText: string;
+    snackTime?: Date;
 }
 
 export default class App extends Component<Props, State> {
     dobDialog = React.createRef<DatePickerDialog>();
-    journeyDialog = React.createRef<DatePickerDialog>();
+    snackDialog = React.createRef<TimePickerDialog>();
 
     constructor( props: Props ) {
         super(props);
         this.state = {
             dobText: '',
-            journeyText: '',
+            snackText: '',
             dobDate: new Date(),
         }
     }
@@ -42,11 +42,18 @@ export default class App extends Component<Props, State> {
         this.dobDialog.current?.open({
             date: this.state.dobDate,
             maxDate: new Date(),
-            minDate: new Date(2022,0,1)
+            minDate: new Date(2022, 0, 1)
         });
 
     }
+    onSnackTimePress = () => {
 
+        //To open the dialog
+        this.snackDialog.current?.open({
+            date: this.state.snackTime,
+        });
+
+    }
     /**
      * Call back for dob date picked event
      *
@@ -58,6 +65,12 @@ export default class App extends Component<Props, State> {
         });
     }
 
+    onSnackDatePicked = ( date: Date ) => {
+        this.setState({
+            snackTime: date,
+            snackText: moment(date).format('hh:mm a')
+        });
+    }
 
     render() {
         return (
@@ -66,17 +79,26 @@ export default class App extends Component<Props, State> {
                     <Text style={ styles.content }>
                         Date Picker Dialog Example
                     </Text>
-                    <View style={ { flex: 1, marginTop: 10 } }>
+                    <View style={ { marginTop: 10 } }>
                         <Text>DOB</Text>
-                        <TouchableOpacity onPress={ this.onDOBPress.bind(this) }>
+                        <TouchableOpacity onPress={ this.onDOBPress }>
                             <View style={ styles.datePickerBox }>
                                 <Text style={ styles.datePickerText }>{ this.state.dobText }</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
+                    <View style={ { marginTop: 10 } }>
+                        <Text>Snack Time</Text>
+                        <TouchableOpacity onPress={ this.onSnackTimePress }>
+                            <View style={ styles.datePickerBox }>
+                                <Text style={ styles.datePickerText }>{ this.state.snackText }</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
 
                     {/* Place the dialog component at end of your views*/ }
-                    <DatePickerDialog ref={ this.dobDialog } onDatePicked={ this.onDOBDatePicked.bind(this) }/>
+                    <DatePickerDialog ref={ this.dobDialog } onDatePicked={ this.onDOBDatePicked }/>
+                    <TimePickerDialog ref={ this.snackDialog } onDatePicked={ this.onSnackDatePicked }/>
 
                 </View>
             </SafeAreaView>

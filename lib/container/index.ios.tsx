@@ -1,6 +1,6 @@
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useRef } from "react";
-import { ContainerProps } from "./container";
+import { ContainerProps } from "./index";
 
 
 export default function ( props: React.PropsWithChildren<ContainerProps> ) {
