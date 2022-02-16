@@ -51,6 +51,7 @@ export default class App extends Component<Props, State> {
         //To open the dialog
         this.snackDialog.current?.open({
             date: this.state.snackTime,
+            is24Hour: false,
         });
 
     }
