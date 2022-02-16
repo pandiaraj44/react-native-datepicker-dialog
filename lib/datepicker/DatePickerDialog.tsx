@@ -1,117 +1,49 @@
 import React, { Component } from 'react';
-import { Platform } from 'react-native';
-import RNDateTimePicker, { AndroidEvent, Event } from "@react-native-community/datetimepicker"
-import Container from "../container"
+import PickerDialog, {Props, DPProps, PickerOption } from "../Picker";
+import { Platform } from "react-native";
 
-interface Props {
-    onDatePicked?: ( date: Date ) => void;
-    onCancel?: () => void;
-    okLabel?: string;
-    cancelLabel?: string;
-    locale?: string;
-}
+
 
 interface State {
-    datePickerVisible: boolean;
-    date?: Date;
-    options?: DatePickerOptions;
 }
 
-export interface DatePickerOptions {
-    date?: Date;
+export interface DatePickerOptions extends PickerOption {
     minDate?: Date;
     maxDate?: Date;
 }
 
 export default class DatePickerDialog extends Component<Props, State> {
+    picker = React.createRef<PickerDialog<DatePickerOptions>>();
 
     constructor( props: Props ) {
         super(props);
-
-        this.state = {
-            datePickerVisible: false,
-        }
-    }
-
-    static defaultProps = {
-        okLabel: 'Ok',
-        cancelLabel: 'Cancel'
+        this.state = {}
     }
 
     open( options: DatePickerOptions ) {
-        this.setState({
-            options: options,
-            date: options.date ?? new Date(),
-        });
-        this.showDatePickerModal();
+        this.picker.current?.open(options);
     }
 
     cancel = () => {
-        this.hideDatePickerModal();
-        this.props.onCancel?.();
+        this.picker.current?.cancel();
     }
-
-    showDatePickerModal() {
-        this.setState({
-            datePickerVisible: true
-        });
-    }
-
-    hideDatePickerModal() {
-        this.setState({
-            datePickerVisible: false
-        });
-    }
-
-    onChange = ( event: Event | AndroidEvent, date?: Date ) => {
-        if ( Platform.OS === "android" ) {
-            this.hideDatePickerModal();
-            if ( date ) {
-                this.setState({ date: date })
-                this.props.onDatePicked?.(date!);
-            } else {
-                this.props.onCancel?.();
-            }
-        } else {
-            this.setState({ date: date })
-        }
-    }
-
-    //container callbacks
-    onOk = () => {
-        this.props.onDatePicked?.(this.state.date!);
-        this.hideDatePickerModal();
-    }
-    onCancel = () => {
-        this.props.onCancel?.();
-        this.hideDatePickerModal();
+    buildOptions = ( options: DatePickerOptions ) => {
+        const { minDate, maxDate } = options
+        const isIOS = Platform.OS === "ios";
+        return {
+            display: isIOS ? "spinner" : "calendar",
+            mode: "date",
+            maximumDate: maxDate,
+            minimumDate: minDate,
+        } as Partial<DPProps>
     }
 
     render() {
-        const { locale, okLabel, cancelLabel } = this.props;
-        const { datePickerVisible, options = {}, date: sDate } = this.state;
-        const { minDate, maxDate } = options
-        const mode = Platform.OS === "ios" ? "spinner" : "calendar";
-        const xProps = Platform.OS === "ios" ? { locale: locale ? locale : 'en_EN' } : {};
-        return (
-            <Container
-                { ...xProps }
-                datePickerVisible={ datePickerVisible }
-                okLabel={ okLabel! }
-                cancelLabel={ cancelLabel! }
-                onOK={ this.onOk }
-                onCancel={ this.onCancel }
-            >
-                <RNDateTimePicker
-                    value={ sDate!  }
-                    maximumDate={ maxDate }
-                    minimumDate={ minDate }
-                    mode="date"
-                    display={ mode }
-                    onChange={ this.onChange }
-                />
-            </Container>
-        );
+        return <PickerDialog
+            ref={ this.picker }
+            { ...this.props }
+            buildPickerProps={ this.buildOptions }
+        />
     }
 }
 

@@ -1,112 +1,46 @@
 import React, { Component } from 'react';
-import { Platform } from 'react-native';
-import RNDateTimePicker, { AndroidEvent, Event } from "@react-native-community/datetimepicker"
-import Container from "../container"
+import PickerDialog, {Props, DPProps, PickerOption } from "../Picker";
+import { Platform } from "react-native";
 
-interface Props {
-    onDatePicked?: ( date: Date ) => void;
-    onCancel?: () => void;
-    okLabel?: string;
-    cancelLabel?: string;
-    locale?: string;
-}
+
 
 interface State {
-    datePickerVisible: boolean;
-    date?: Date;
-    options?: TimePickerOptions;
 }
 
-export interface TimePickerOptions {
-    date?: Date;
+export interface TimePickerOptions extends PickerOption {
+    is24Hour?: boolean;
 }
 
 export default class DatePickerDialog extends Component<Props, State> {
+    picker = React.createRef<PickerDialog<TimePickerOptions>>();
 
     constructor( props: Props ) {
         super(props);
-
-        this.state = {
-            datePickerVisible: false,
-        }
-    }
-
-    static defaultProps = {
-        okLabel: 'Ok',
-        cancelLabel: 'Cancel'
+        this.state = {}
     }
 
     open( options: TimePickerOptions ) {
-        console.log(options)
-        this.setState({
-            options: options,
-            date: options.date ?? new Date(),
-        },this.showDatePickerModal);
+        this.picker.current?.open(options);
     }
 
     cancel = () => {
-        this.hideDatePickerModal();
-        this.props.onCancel?.();
+        this.picker.current?.cancel();
     }
-
-    showDatePickerModal() {
-        this.setState({
-            datePickerVisible: true
-        });
-    }
-
-    hideDatePickerModal() {
-        this.setState({
-            datePickerVisible: false
-        });
-    }
-
-    onChange = ( event: Event | AndroidEvent, date?: Date ) => {
-        if ( Platform.OS === "android" ) {
-            this.hideDatePickerModal();
-            if ( date ) {
-                this.setState({ date: date })
-                this.props.onDatePicked?.(date!);
-            } else {
-                this.props.onCancel?.();
-            }
-        } else {
-            this.setState({ date: date })
-        }
-    }
-
-    //container callbacks
-    onOk = () => {
-        this.props.onDatePicked?.(this.state.date!);
-        this.hideDatePickerModal();
-    }
-    onCancel = () => {
-        this.props.onCancel?.();
-        this.hideDatePickerModal();
+    buildOptions = ( options: TimePickerOptions ) => {
+        const isIOS = Platform.OS === "ios";
+        return {
+            display: isIOS ? "spinner" : "clock",
+            mode: "time",
+            is24Hour: options.is24Hour === true,
+        } as Partial<DPProps>
     }
 
     render() {
-        const { locale, okLabel, cancelLabel } = this.props;
-        const { datePickerVisible, options = {}, date: sDate } = this.state;
-        const mode = Platform.OS === "ios" ? "spinner" : "calendar";
-        const xProps = Platform.OS === "ios" ? { locale: locale ? locale : 'en_EN' } : {};
-        return (
-            <Container
-                { ...xProps }
-                datePickerVisible={ datePickerVisible }
-                okLabel={ okLabel! }
-                cancelLabel={ cancelLabel! }
-                onOK={ this.onOk }
-                onCancel={ this.onCancel }
-            >
-                <RNDateTimePicker
-                    value={ sDate!  }
-                    mode="time"
-                    display={ mode }
-                    onChange={ this.onChange }
-                />
-            </Container>
-        );
+        return <PickerDialog
+            ref={ this.picker }
+            { ...this.props }
+            buildPickerProps={ this.buildOptions }
+        />
     }
 }
 
