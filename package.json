@@ -1,11 +1,15 @@
 {
   "name": "react-native-datepicker-dialog",
-  "version": "0.0.9",
+  "version": "1.0.0",
   "description": "This library provides the cross-platform components for to open the date picker dialogs in effective way. It uses the native DatePickerAndroid & DatePickerIOS components. It will work for both ios & android.",
-  "main": "main-index.js",
+  "main": "dist/main-index.js",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "ios:setup": "cd ios && rimraf Pods && pod install",
+    "ios": "react-native run-ios",
+    "android": "react-native run-android",
+    "test": "jest",
+    "build:lib": "rimraf dist && tsc --project tsconfig.lib.json"
   },
   "repository": {
     "type": "git",
@@ -17,13 +21,13 @@
     "timepicker",
     "react-native-datepicker",
     "DatePicker",
-  	"TimePicker",
-  	"date picker",
-  	"time picker",
-  	"dialog",
-  	"datepicker dialog",
-  	"timepicker dialog"
- 	],
+    "TimePicker",
+    "date picker",
+    "time picker",
+    "dialog",
+    "datepicker dialog",
+    "timepicker dialog"
+  ],
   "author": "Pandiarajan Nagarajan",
   "license": "MIT",
   "bugs": {
@@ -31,19 +35,27 @@
   },
   "homepage": "https://github.com/pandiaraj44/react-native-datepicker-dialog",
   "dependencies": {
+    "@react-native-community/datetimepicker": "5.1.0"
   },
   "jest": {
-    "preset": "jest-react-native"
+    "preset": "react-native",
+    "testPathIgnorePatterns": [
+      "^node_modules/"
+    ]
   },
   "devDependencies": {
-    "react": "15.3.2",
-    "react-native": "0.37.0",
-    "babel-jest": "17.0.2",
-    "babel-preset-react-native": "1.9.0",
-    "jest": "17.0.3",
+    "@types/jest": "^27.4.0",
+    "@types/react": "^17.0.39",
+    "@types/react-native": "^0.66.16",
+    "@types/react-test-renderer": "^17.0.1",
+    "babel-jest": "26.6.3",
+    "jest": "26.6.3",
     "jest-react-native": "17.0.3",
-    "react-test-renderer": "15.3.2",
-    "moment": "2.27.0",
-    "prop-types": "^15.6.0"
+    "moment": "2.29.1",
+    "prop-types": "^15.6.0",
+    "react": "17.0.2",
+    "react-native": "0.67.2",
+    "react-test-renderer": "17.0.2",
+    "typescript": "^4.5.5"
   }
 }

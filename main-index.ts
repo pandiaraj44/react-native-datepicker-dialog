@@ -1,5 +1,3 @@
 import DatePickerDialog from './lib/datepicker/DatePickerDialog';
 
-module.exports = {
-  DatePickerDialog: DatePickerDialog
-}
+export { DatePickerDialog }

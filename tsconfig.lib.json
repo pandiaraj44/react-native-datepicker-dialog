@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "dist",
+    "declaration": true
+  },
+  "exclude": [
+    "./node_modules",
+    "./__tests__",
+    "./dist",
+    "./babel.config.js",
+    "./metro.config.js",
+    "./jest.config.js",
+    "./App.tsx",
+    "./index.js"
+  ]
+}
